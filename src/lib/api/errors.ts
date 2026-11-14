@@ -9,7 +9,7 @@ const knownErrorMessages: Record<string, string> = {
   PASSWORD_TOO_SHORT: 'La contraseña debe tener al menos 8 caracteres.',
   PASSWORD_TOO_LONG: 'La contraseña no puede superar 128 caracteres.',
   VALIDATION_ERROR: 'Revisa los datos introducidos e inténtalo de nuevo.',
-  authentication-required: 'Debes iniciar sesión para continuar.',
+  'authentication-required': 'Debes iniciar sesión para continuar.',
   forbidden: 'No tienes permisos para realizar esta acción.',
   'rate-limit-exceeded': 'Demasiados intentos. Espera unos minutos.',
 }

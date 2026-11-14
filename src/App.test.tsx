@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
 
@@ -60,9 +60,15 @@ describe('Homepage', () => {
     const navigation = screen.getByRole('navigation', { name: 'Principal' })
 
     expect(navigation).toBeInTheDocument()
+    const startButton = within(navigation).getByRole('button', {
+      name: 'Comenzar',
+    })
+
+    fireEvent.click(startButton)
+
     expect(
-      within(navigation).getByRole('link', { name: 'Comenzar' }),
-    ).toHaveAttribute('href', '/#prueba')
+      screen.getByRole('dialog', { name: 'Acceso a tu cuenta' }),
+    ).toBeInTheDocument()
     expect(
       within(navigation).getByRole('link', { name: 'Cómo se construirá' }),
     ).toHaveAttribute('href', '/#arquitectura')

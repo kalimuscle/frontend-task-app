@@ -1,10 +1,13 @@
 import { Check } from 'lucide-react'
 import { Link, NavLink } from 'react-router-dom'
+import { useAuthDialog } from '../../features/auth/auth-dialog-context'
 
 const pageLinkClass = ({ isActive }: { isActive: boolean }) =>
   `site-nav__link${isActive ? ' site-nav__link--active' : ''}`
 
 export function HomeHeader() {
+  const { openDialog } = useAuthDialog()
+
   return (
     <header className="site-header">
       <div className="site-header__inner page-shell">
@@ -44,9 +47,13 @@ export function HomeHeader() {
               </NavLink>
             </li>
             <li>
-              <Link className="site-nav__link site-nav__link--accent" to="/#prueba">
+              <button
+                className="site-nav__link site-nav__link--accent"
+                type="button"
+                onClick={() => openDialog('signin')}
+              >
                 Comenzar
-              </Link>
+              </button>
             </li>
           </ul>
         </nav>
