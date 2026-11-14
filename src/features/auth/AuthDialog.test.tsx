@@ -77,6 +77,22 @@ describe('AuthDialog', () => {
     expect(screen.getByRole('tab', { name: 'Crear cuenta' })).toBeInTheDocument()
   })
 
+  it('no muestra errores antes de que el usuario interactúe', () => {
+    renderAuthDialog()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Abrir acceso' }))
+
+    expect(screen.getByLabelText('Correo electrónico')).toHaveAttribute(
+      'aria-invalid',
+      'false',
+    )
+    expect(screen.getByLabelText('Contraseña')).toHaveAttribute(
+      'aria-invalid',
+      'false',
+    )
+    expect(screen.queryByText('Revisa este campo.')).not.toBeInTheDocument()
+  })
+
   it('valida el registro con Zod sin enviar datos inválidos', async () => {
     const post = vi.spyOn(apiClient, 'post')
     renderAuthDialog()

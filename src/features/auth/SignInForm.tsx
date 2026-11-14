@@ -15,7 +15,6 @@ export function SignInForm() {
       password: '',
     },
     validators: {
-      onBlur: signInSchema,
       onSubmit: signInSchema,
     },
     onSubmit: async ({ value }) => {
@@ -63,7 +62,10 @@ export function SignInForm() {
         </div>
       ) : null}
 
-      <form.Field name="email">
+      <form.Field
+        name="email"
+        validators={{ onBlur: signInSchema.shape.email }}
+      >
         {(field) => {
           const errorMessage = getValidationMessage(
             field.state.meta.errors[0],
@@ -96,7 +98,10 @@ export function SignInForm() {
         }}
       </form.Field>
 
-      <form.Field name="password">
+      <form.Field
+        name="password"
+        validators={{ onBlur: signInSchema.shape.password }}
+      >
         {(field) => {
           const errorMessage = getValidationMessage(
             field.state.meta.errors[0],

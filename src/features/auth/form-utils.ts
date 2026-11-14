@@ -1,4 +1,8 @@
 export function getValidationMessage(error: unknown) {
+  if (error === undefined || error === null) {
+    return undefined
+  }
+
   if (typeof error === 'string') {
     return error
   }

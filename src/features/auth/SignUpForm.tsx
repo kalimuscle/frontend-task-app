@@ -22,7 +22,6 @@ export function SignUpForm() {
       role: 'USER' as UserRoleInput,
     },
     validators: {
-      onBlur: signUpSchema,
       onSubmit: signUpSchema,
     },
     onSubmit: async ({ value }) => {
@@ -71,7 +70,10 @@ export function SignUpForm() {
         </div>
       ) : null}
 
-      <form.Field name="name">
+      <form.Field
+        name="name"
+        validators={{ onBlur: signUpSchema.shape.name }}
+      >
         {(field) => {
           const errorMessage = getValidationMessage(
             field.state.meta.errors[0],
@@ -105,7 +107,10 @@ export function SignUpForm() {
         }}
       </form.Field>
 
-      <form.Field name="email">
+      <form.Field
+        name="email"
+        validators={{ onBlur: signUpSchema.shape.email }}
+      >
         {(field) => {
           const errorMessage = getValidationMessage(
             field.state.meta.errors[0],
@@ -138,7 +143,10 @@ export function SignUpForm() {
         }}
       </form.Field>
 
-      <form.Field name="password">
+      <form.Field
+        name="password"
+        validators={{ onBlur: signUpSchema.shape.password }}
+      >
         {(field) => {
           const errorMessage = getValidationMessage(
             field.state.meta.errors[0],
