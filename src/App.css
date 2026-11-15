@@ -2534,3 +2534,28 @@
   gap: 0.75rem;
   margin-block-start: 1.6rem;
 }
+
+.task-dialog__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
+  gap: 0.6rem 1rem;
+  margin: 1.4rem 0 0;
+}
+
+.task-dialog__grid dt {
+  color: var(--ink-subtle);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.task-dialog__grid dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.task-dialog__id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--ink-subtle);
+  font-size: 0.78rem;
+}
