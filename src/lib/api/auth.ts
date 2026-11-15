@@ -25,3 +25,9 @@ export async function getSession() {
 
   return response.data
 }
+
+export async function signOut() {
+  const response = await apiClient.post<{ success: boolean }>('/auth/sign-out')
+
+  return response.data
+}

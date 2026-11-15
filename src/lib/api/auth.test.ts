@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { apiClient } from './client'
-import { getSession, signIn, signUp } from './auth'
+import { getSession, signIn, signOut, signUp } from './auth'
 
 describe('auth API', () => {
   afterEach(() => {
@@ -46,5 +46,15 @@ describe('auth API', () => {
     await getSession()
 
     expect(get).toHaveBeenCalledWith('/auth/get-session')
+  })
+
+  it('cierra la sesión en el servidor', async () => {
+    const post = vi
+      .spyOn(apiClient, 'post')
+      .mockResolvedValue({ data: { success: true } })
+
+    await signOut()
+
+    expect(post).toHaveBeenCalledWith('/auth/sign-out')
   })
 })

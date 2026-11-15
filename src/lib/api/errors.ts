@@ -12,6 +12,9 @@ const knownErrorMessages: Record<string, string> = {
   'authentication-required': 'Debes iniciar sesión para continuar.',
   forbidden: 'No tienes permisos para realizar esta acción.',
   'rate-limit-exceeded': 'Demasiados intentos. Espera unos minutos.',
+  'task-not-found': 'La tarea ya no existe.',
+  'assignee-not-found': 'El responsable indicado no existe.',
+  'validation-error': 'Revisa los datos introducidos e inténtalo de nuevo.',
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -52,4 +55,8 @@ export function getApiErrorMessage(error: unknown) {
   }
 
   return 'Se produjo un error inesperado. Inténtalo de nuevo.'
+}
+
+export function isUnauthorizedError(error: unknown) {
+  return axios.isAxiosError(error) && error.response?.status === 401
 }
