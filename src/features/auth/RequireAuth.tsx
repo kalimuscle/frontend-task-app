@@ -8,7 +8,8 @@ interface RequireAuthProps {
 }
 
 export function RequireAuth({ children }: RequireAuthProps) {
-  const { data, error, isError, isPending, refetch } = useSessionQuery()
+  const { data, error, isError, isFetching, isPending, refetch } =
+    useSessionQuery()
 
   if (isPending) {
     return (
@@ -16,6 +17,17 @@ export function RequireAuth({ children }: RequireAuthProps) {
         <div className="page-shell route-state__inner" role="status">
           <span className="route-state__indicator" aria-hidden="true" />
           <p>Comprobando tu sesión...</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (data === null && isFetching) {
+    return (
+      <main className="route-state" id="contenido" tabIndex={-1}>
+        <div className="page-shell route-state__inner" role="status">
+          <span className="route-state__indicator" aria-hidden="true" />
+          <p>Actualizando tu sesión...</p>
         </div>
       </main>
     )

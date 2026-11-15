@@ -110,6 +110,19 @@ describe('AuthDialog', () => {
     expect(post).not.toHaveBeenCalled()
   })
 
+  it('enfoca el primer campo inválido al enviar el registro', async () => {
+    renderAuthDialog()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Abrir acceso' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Crear cuenta' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Crear mi cuenta' }))
+
+    expect(
+      await screen.findByText('Escribe un nombre de al menos 2 caracteres.'),
+    ).toBeInTheDocument()
+    expect(document.activeElement).toBe(screen.getByLabelText('Nombre'))
+  })
+
   it('selecciona USER por defecto y permite enviar ADMIN', async () => {
     const post = vi.spyOn(apiClient, 'post').mockResolvedValue({
       data: { token: 'session-token', user },
@@ -163,7 +176,7 @@ describe('AuthDialog', () => {
 
     expect(password).toHaveAttribute('type', 'text')
     expect(
-      screen.getByRole('button', { name: 'Ocultar contraseña' }),
+      screen.getByRole('button', { name: 'Mostrar contraseña' }),
     ).toHaveAttribute('aria-pressed', 'true')
   })
 

@@ -49,7 +49,7 @@ export function PasswordInput({
         <button
           className="auth-password__toggle"
           type="button"
-          aria-label={isVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+          aria-label="Mostrar contraseña"
           aria-pressed={isVisible}
           aria-controls={id}
           onClick={() => setIsVisible((visible) => !visible)}

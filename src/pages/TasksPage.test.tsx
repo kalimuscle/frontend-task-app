@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
 import { apiClient } from '../lib/api/client'
@@ -57,6 +57,62 @@ describe('TasksPage', () => {
     expect(
       await screen.findByRole('dialog', { name: 'Acceso a tu cuenta' }),
     ).toBeInTheDocument()
+  })
+
+  it('completa el login iniciado desde una ruta protegida', async () => {
+    let sessionChecks = 0
+    const get = vi.spyOn(apiClient, 'get').mockImplementation((url) => {
+      if (url === '/auth/get-session') {
+        sessionChecks += 1
+
+        if (sessionChecks === 1) {
+          return Promise.resolve({ data: null })
+        }
+
+        return new Promise((resolve) => {
+          window.setTimeout(() => resolve({ data: session }), 300)
+        })
+      }
+
+      return Promise.resolve({
+        data: {
+          items: [],
+          pagination: {
+            page: 1,
+            limit: 20,
+            total: 0,
+            totalPages: 0,
+          },
+        },
+      })
+    })
+    const post = vi.spyOn(apiClient, 'post').mockResolvedValue({
+      data: { token: 'session-token', user: session.user },
+    })
+
+    renderAt('/tasks')
+
+    expect(
+      await screen.findByRole('dialog', { name: 'Acceso a tu cuenta' }),
+    ).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Correo electrónico'), {
+      target: { value: 'ana@example.com' },
+    })
+    fireEvent.change(screen.getByLabelText('Contraseña'), {
+      target: { value: 'correcta-123' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Iniciar sesión' }))
+
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'Tus tareas' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('dialog', { name: 'Acceso a tu cuenta' }),
+    ).not.toBeInTheDocument()
+    expect(post).toHaveBeenCalledWith('/auth/sign-in/email', {
+      email: 'ana@example.com',
+      password: 'correcta-123',
+    })
   })
 
   it('muestra las tareas cuando la sesión es válida', async () => {

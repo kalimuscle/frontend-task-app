@@ -19,7 +19,11 @@ export function useSignUpMutation() {
   return useMutation({
     mutationFn: signUp,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['session'] })
+      await queryClient.fetchQuery({
+        queryKey: ['session'],
+        queryFn: getSession,
+        staleTime: 0,
+      })
       notifyToast({
         tone: 'success',
         title: 'Cuenta creada correctamente.',
@@ -38,7 +42,11 @@ export function useSignInMutation() {
   return useMutation({
     mutationFn: signIn,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['session'] })
+      await queryClient.fetchQuery({
+        queryKey: ['session'],
+        queryFn: getSession,
+        staleTime: 0,
+      })
       notifyToast({
         tone: 'success',
         title: 'Sesión iniciada correctamente.',

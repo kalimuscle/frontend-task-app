@@ -1,3 +1,22 @@
+export function focusFirstInvalidField(
+  formId: string,
+  fields: Record<string, { errors: unknown[] }>,
+) {
+  const firstInvalidField = Object.entries(fields).find(
+    ([, field]) => field.errors.length > 0,
+  )
+
+  if (!firstInvalidField) {
+    return
+  }
+
+  const field = document.querySelector<HTMLElement>(
+    `[data-auth-form="${formId}"] [name="${firstInvalidField[0]}"]`,
+  )
+
+  field?.focus()
+}
+
 export function getValidationMessage(error: unknown) {
   if (error === undefined || error === null) {
     return undefined

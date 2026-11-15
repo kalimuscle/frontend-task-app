@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { getApiErrorMessage } from '../../lib/api/errors'
 import { signUpSchema, type UserRoleInput } from '../../lib/schemas/auth'
-import { getValidationMessage } from './form-utils'
+import { focusFirstInvalidField, getValidationMessage } from './form-utils'
 import { PasswordInput } from './PasswordInput'
 import { useSignUpMutation } from './use-auth'
 
@@ -35,20 +35,14 @@ export function SignUpForm() {
       }
     },
     onSubmitInvalid: ({ formApi }) => {
-      const { fields } = formApi.getAllErrors()
-      const firstInvalidField = Object.entries(fields).find(
-        ([, field]) => field.errors.length > 0,
-      )
-
-      if (firstInvalidField) {
-        document.getElementById(firstInvalidField[0])?.focus()
-      }
+      focusFirstInvalidField('sign-up', formApi.getAllErrors().fields)
     },
   })
 
   return (
     <form
       className="auth-form"
+      data-auth-form="sign-up"
       action="/api/auth/sign-up/email"
       method="post"
       noValidate
