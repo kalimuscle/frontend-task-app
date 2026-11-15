@@ -61,7 +61,7 @@ describe('TasksPage', () => {
 
   it('completa el login iniciado desde una ruta protegida', async () => {
     let sessionChecks = 0
-    const get = vi.spyOn(apiClient, 'get').mockImplementation((url) => {
+    vi.spyOn(apiClient, 'get').mockImplementation((url) => {
       if (url === '/auth/get-session') {
         sessionChecks += 1
 
@@ -156,7 +156,9 @@ describe('TasksPage', () => {
     expect(screen.getByText('Ana Pérez')).toBeInTheDocument()
     expect(screen.getByText('En curso')).toBeInTheDocument()
     await waitFor(() => {
-      expect(get).toHaveBeenCalledWith('/tasks')
+      expect(get).toHaveBeenCalledWith('/tasks', {
+        params: { page: 1, limit: 20 },
+      })
     })
     expect(
       screen.queryByRole('dialog', { name: 'Acceso a tu cuenta' }),

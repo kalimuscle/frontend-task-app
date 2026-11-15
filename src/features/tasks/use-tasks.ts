@@ -4,6 +4,6 @@ import { listTasks } from '../../lib/api/tasks'
 export function useTasks() {
   return useQuery({
     queryKey: ['tasks'],
-    queryFn: listTasks,
+    queryFn: () => listTasks(),
   })
 }
