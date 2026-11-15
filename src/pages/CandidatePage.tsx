@@ -1,5 +1,4 @@
 import { Code2, Layers3, UsersRound } from 'lucide-react'
-import { Link } from 'react-router-dom'
 import { usePageTitle } from '../hooks/usePageTitle'
 
 const summary =
@@ -239,15 +238,6 @@ export function CandidatePage() {
               defino los contratos entre capas y termino verificando el
               comportamiento real.
             </p>
-
-            <div className="candidate-actions">
-              <Link className="button button--primary" to="/tech-stack">
-                Conocer el stack
-              </Link>
-              <Link className="button button--quiet" to="/#prueba">
-                Ver la prueba
-              </Link>
-            </div>
           </div>
 
           <dl className="candidate-values">
@@ -359,60 +349,72 @@ export function CandidatePage() {
         className="candidate-section candidate-section--canvas"
         aria-labelledby="profile-title"
       >
-        <div className="page-shell candidate-grid candidate-grid--wide">
-          <div className="candidate-block">
-            <p className="section-kicker">Educación</p>
-            <h2 className="section-title" id="profile-title">
-              Formación académica.
-            </h2>
-            <p className="section-copy">
-              Licenciatura en Ingeniería Informática, Universidad Tecnológica
-              de Cuba · La Habana, Cuba | 2015.
-            </p>
-          </div>
+        <div className="page-shell">
+          <p className="section-kicker">Formación, idiomas y proyectos</p>
+          <h2 className="section-title" id="profile-title">
+            El contexto detrás del trabajo.
+          </h2>
 
-          <div className="candidate-block">
-            <p className="section-kicker">Proyecto destacado</p>
-            <h3 className="candidate-block__title">Ninjacuba</h3>
-            <p className="section-copy">
-              Plataforma que conectaba a profesionales tecnológicos con
-              clientes globales. Rol: arquitecto principal y desarrollador.
-            </p>
-            <p className="section-copy">
-              Ganó el concurso 10x10k como mejor startup tecnológica de Cuba.
-              Más de 15 000 profesionales trabajaron con clientes de todo el
-              mundo y más de 3 600 consecugieron trabajos remotos.
-            </p>
-            <p className="timeline__tools">
-              <strong>Tecnologías:</strong> JavaScript, HTML, CSS, React,
-              GraphQL, AWS, REST API, CI/CD, Bitbucket.
-            </p>
-          </div>
+          <div className="candidate-columns">
+            <div className="candidate-column">
+              <div className="candidate-block">
+                <p className="section-kicker">Educación</p>
+                <h3 className="candidate-block__title">
+                  Licenciatura en Ingeniería Informática
+                </h3>
+                <p className="section-copy">
+                  Universidad Tecnológica de Cuba · La Habana, Cuba | 2015.
+                </p>
+              </div>
 
-          <div className="candidate-block">
-            <p className="section-kicker">Idiomas</p>
-            <h3 className="candidate-block__title">Español e inglés</h3>
-            <ul className="candidate-plain-list">
-              <li>Español: nativo.</li>
-              <li>Inglés: avanzado (B2).</li>
-            </ul>
-          </div>
+              <div className="candidate-block">
+                <p className="section-kicker">Idiomas</p>
+                <h3 className="candidate-block__title">Español e inglés</h3>
+                <ul className="candidate-plain-list">
+                  <li>Español: nativo.</li>
+                  <li>Inglés: avanzado (B2).</li>
+                </ul>
+              </div>
+            </div>
 
-          <div className="candidate-block">
-            <p className="section-kicker">Intereses y actividades</p>
-            <h3 className="candidate-block__title">Divulgación de blockchain</h3>
-            <p className="section-copy">
-              Miembro activo de la comunidad blockchain en Cuba, dedicado a la
-              educación y difusión de esta tecnología. Ofrezco cursos gratuitos
-              para formar a colegas y al público en general sobre los
-              fundamentos de blockchain, su impacto en la economía global y sus
-              beneficios en el contexto cubano. Con estos programas busco que
-              las personas comprendan y aprovechen las oportunidades que
-              blockchain ofrece, tanto a nivel local como internacional. Mi
-              objetivo es promover la adopción de tecnología descentralizada y
-              contribuir al desarrollo de un ecosistema blockchain sólido en
-              Cuba.
-            </p>
+            <div className="candidate-column">
+              <div className="candidate-block">
+                <p className="section-kicker">Proyecto destacado</p>
+                <h3 className="candidate-block__title">Ninjacuba</h3>
+                <p className="section-copy">
+                  Plataforma que conectaba a profesionales tecnológicos con
+                  clientes globales. Rol: arquitecto principal y desarrollador.
+                </p>
+                <p className="section-copy">
+                  Ganó el concurso 10x10k como mejor startup tecnológica de
+                  Cuba. Más de 15 000 profesionales trabajaron con clientes de
+                  todo el mundo y más de 3 600 consecugieron trabajos remotos.
+                </p>
+                <p className="timeline__tools">
+                  <strong>Tecnologías:</strong> JavaScript, HTML, CSS, React,
+                  GraphQL, AWS, REST API, CI/CD, Bitbucket.
+                </p>
+              </div>
+
+              <div className="candidate-block">
+                <p className="section-kicker">Intereses y actividades</p>
+                <h3 className="candidate-block__title">
+                  Divulgación de blockchain
+                </h3>
+                <p className="section-copy">
+                  Miembro activo de la comunidad blockchain en Cuba, dedicado a
+                  la educación y difusión de esta tecnología. Ofrezco cursos
+                  gratuitos para formar a colegas y al público en general sobre
+                  los fundamentos de blockchain, su impacto en la economía
+                  global y sus beneficios en el contexto cubano. Con estos
+                  programas busco que las personas comprendan y aprovechen las
+                  oportunidades que blockchain ofrece, tanto a nivel local
+                  como internacional. Mi objetivo es promover la adopción de
+                  tecnología descentralizada y contribuir al desarrollo de un
+                  ecosistema blockchain sólido en Cuba.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
