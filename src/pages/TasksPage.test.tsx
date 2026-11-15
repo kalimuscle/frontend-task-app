@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
 import { apiClient } from '../lib/api/client'
@@ -26,6 +26,16 @@ const session: AuthSession = {
     updatedAt: '2026-11-14T12:00:00.000Z',
     role: 'USER',
   },
+}
+
+const healthReport = {
+  status: 'ok',
+  server: {
+    status: 'up',
+    uptimeSeconds: 120,
+    timestamp: '2026-11-14T12:00:00.000Z',
+  },
+  database: { status: 'up', latencyMs: 0.42 },
 }
 
 function renderAt(path: string) {
@@ -72,6 +82,10 @@ describe('TasksPage', () => {
         return new Promise((resolve) => {
           window.setTimeout(() => resolve({ data: session }), 300)
         })
+      }
+
+      if (url === '/healthcheck') {
+        return Promise.resolve({ data: healthReport })
       }
 
       return Promise.resolve({
@@ -121,6 +135,10 @@ describe('TasksPage', () => {
         return Promise.resolve({ data: session })
       }
 
+      if (url === '/healthcheck') {
+        return Promise.resolve({ data: healthReport })
+      }
+
       if (url === '/tasks') {
         return Promise.resolve({
           data: {
@@ -153,7 +171,9 @@ describe('TasksPage', () => {
       await screen.findByRole('heading', { level: 1, name: 'Tus tareas' }),
     ).toBeInTheDocument()
     expect(await screen.findByText('Preparar la entrega')).toBeInTheDocument()
-    expect(screen.getByText('Ana Pérez')).toBeInTheDocument()
+    expect(
+      within(screen.getByRole('main')).getByText('Ana Pérez'),
+    ).toBeInTheDocument()
     expect(screen.getByText('En curso')).toBeInTheDocument()
     await waitFor(() => {
       expect(get).toHaveBeenCalledWith('/tasks', {
