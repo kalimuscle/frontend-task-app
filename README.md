@@ -105,6 +105,16 @@ npm test
 
 La suite del frontend usa Vitest, Testing Library y jsdom. Cubre el guard de `/tasks`, el ciclo de alta, acceso y cierre de sesión, la tabla, el filtro por estado, los diálogos de ver, editar y eliminar, las reglas por rol y el indicador de conexión del servidor.
 
+> **Las pruebas de autenticación requieren el backend en marcha.**
+> Los casos de alta y de inicio de sesión de `src/features/auth/AuthDialog.test.tsx` comprueban también la renovación de la sesión, que se pide a la API real mediante `GET /api/auth/get-session`. Si el servidor no está levantado en `http://localhost:3000`, esa llamada falla y los avisos de "Cuenta creada correctamente." y "Sesión iniciada correctamente." no llegan a aparecer. Arranca el backend antes de lanzar la suite:
+>
+> ```bash
+> cd ../backend
+> npm run dev
+> ```
+>
+> El resto de la suite no depende del servidor: las peticiones a la API están simuladas en cada test.
+
 ```bash
 npm run typecheck
 ```
