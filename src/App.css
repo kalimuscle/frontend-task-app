@@ -2559,3 +2559,91 @@
   color: var(--ink-subtle);
   font-size: 0.78rem;
 }
+
+.button--danger {
+  background: var(--destructive);
+  color: var(--surface);
+}
+
+.tasks-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.tasks-table__head th,
+.tasks-table thead th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-block-end: 1px solid var(--line);
+  color: var(--ink-subtle);
+  font-size: 0.74rem;
+  font-weight: 780;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tasks-table__row {
+  border-block-end: 1px solid var(--line);
+}
+
+.tasks-table__row:last-child {
+  border-block-end: 0;
+}
+
+.tasks-table__cell {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+}
+
+.tasks-table__title {
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.tasks-table__date {
+  color: var(--ink-subtle);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.tasks-table__assignee {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+}
+
+.tasks-table__actions {
+  text-align: right;
+  inline-size: 3rem;
+}
+
+.tasks-table__actions-button {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.tasks-table__actions-button:hover {
+  border-color: var(--line);
+  background: var(--canvas);
+}
+
+@media (max-width: 47.99rem) {
+  .tasks-table thead th:nth-child(3),
+  .tasks-table thead th:nth-child(4),
+  .tasks-table__row td:nth-child(3),
+  .tasks-table__row td:nth-child(4) {
+    display: none;
+  }
+
+  .tasks-table__cell {
+    padding: 0.7rem 0.75rem;
+  }
+}
