@@ -73,12 +73,12 @@ export function TasksPage() {
       <section className="tasks-hero">
         <div className="page-shell tasks-hero__inner">
           <div>
-            {/* <p className="section-kicker">Área privada</p>
+            <p className="section-kicker">Área privada</p>
             <h1>Tus tareas</h1>
             <p>
               Gestiona el trabajo del equipo, consulta estados y mantén cada
               responsabilidad visible.
-            </p> */}
+            </p>
           </div>
 
           {isAdmin ? (
