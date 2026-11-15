@@ -2397,3 +2397,140 @@
   color: var(--ink-subtle);
   font-size: 0.75rem;
 }
+
+.task-dialog {
+  width: min(calc(100% - 2rem), 34rem);
+  max-block-size: calc(100dvh - 2rem);
+  margin: auto;
+  overflow: auto;
+  border: 0;
+  border-radius: 1rem;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0;
+  box-shadow: 0 2rem 6rem rgba(16, 24, 40, 0.28);
+}
+
+.task-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+.task-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgba(11, 18, 32, 0.64);
+  backdrop-filter: blur(5px);
+}
+
+.task-dialog__surface {
+  position: relative;
+  padding: clamp(1.35rem, 4vw, 2.25rem);
+}
+
+.task-dialog__header {
+  padding-inline-end: 2.5rem;
+}
+
+.task-dialog__eyebrow {
+  margin: 0 0 0.45rem;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 780;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.task-dialog__header h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 810;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.task-dialog__header > p:last-child {
+  margin: 0.65rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+
+.task-dialog__close-form {
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+}
+
+.task-dialog__close {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: var(--surface);
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.task-form {
+  display: grid;
+  gap: 1.1rem;
+  margin-block-start: 1.5rem;
+}
+
+.task-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.task-field > label,
+.task-field__label {
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.task-field input,
+.task-field select {
+  inline-size: 100%;
+  min-block-size: 2.9rem;
+  border: 1px solid var(--input);
+  border-radius: 0.55rem;
+  background: var(--surface);
+  color: var(--ink);
+  padding-inline: 0.75rem;
+  font: inherit;
+}
+
+.task-field__error {
+  margin: 0;
+  color: var(--destructive);
+  font-size: 0.76rem;
+}
+
+.task-form__error {
+  border: 1px solid var(--destructive);
+  border-radius: 0.55rem;
+  background: #fef3f2;
+  color: var(--destructive);
+  padding: 0.7rem 0.8rem;
+  font-size: 0.82rem;
+}
+
+.task-form__readonly {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: var(--canvas);
+  color: var(--ink);
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.task-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-block-start: 1.6rem;
+}
