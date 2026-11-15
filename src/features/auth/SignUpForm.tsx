@@ -178,7 +178,7 @@ export function SignUpForm() {
                     <strong>{role.label}</strong>
                     <small>
                       {role.value === 'ADMIN'
-                        ? 'Permisos de administración.'
+                        ? 'Administración de tareas.'
                         : 'Acceso a las tareas asignadas.'}
                     </small>
                   </span>
