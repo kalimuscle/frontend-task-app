@@ -92,8 +92,8 @@ export function AssigneeCombobox({
               <Combobox.Empty className="assignee-combobox__empty">
                 Sin resultados
               </Combobox.Empty>
-              <Combobox.List items={items} className="assignee-combobox__list">
-                {(user) => (
+              <Combobox.List className="assignee-combobox__list">
+                {(user: UserSummary) => (
                   <Combobox.Item
                     key={user.id}
                     value={user.id}
