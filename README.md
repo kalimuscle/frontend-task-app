@@ -195,21 +195,9 @@ src/
 - **Alta**: el botón "Crear Tarea" abre el mismo formulario en vacío.
 - **Roles**: un `ADMIN` edita todos los campos y ve el selector de responsable; un `USER` solo cambia el estado.
 
-## Metodología: Spec Driven con coding agent
-
-El trabajo no se hizo improvisando código. Cada bloque de funcionalidad se decidió por escrito antes de programarse.
-
-1. **Exploración**: se leyó el código real de las dos aplicaciones y se inventariaron los endpoints que ya existían, incluidos los que faltaban y los que cambiaban de contrato.
-2. **Diseño**: cada funcionalidad tiene un documento en `docs/superpowers/specs/` con el objetivo, los requisitos, las alternativas descartadas y los límites explícitos de lo que no se haría.
-3. **Revisión del diseño**: un revisor independiente leyó el documento y señaló los puntos que quedaban abiertos, antes de que existiera una línea de código.
-4. **Plan**: el diseño se traduce en un plan en `docs/superpowers/plans/`, dividido en tareas con sus pruebas y su commit.
-5. **Ejecución**: cada tarea la implementa un subagente nuevo y la revisa otro subagente sobre el diff, con un registro de progreso que permite retomar el trabajo sin perder el hilo.
-
-El resultado es que los contratos (nombres de endpoint, forma de los payloads, reglas por rol, textos de error) quedan fijados y verificables antes de existir en el código, y cada commit es pequeño, revisable y reversible.
-
 ## Uso de la IA
 
-Se utilizó un coding agent como colaborador para explorar el proyecto, implementar cambios y acelerar verificaciones. Cada resultado se revisó antes de darlo por terminado.
+Se utilizó un coding agent como colaborador para explorar el proyecto, implementar cambios y acelerar verificaciones. Cada resultado se revisó antes de darlo por terminado. Usando la metodologia Spec Driven
 
 **Criterio de uso:** la IA propone y ejecuta; la persona define, valida y decide.
 
