@@ -2270,3 +2270,49 @@
     display: none;
   }
 }
+
+.task-badge {
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 740;
+}
+
+.task-badge--pending {
+  background: #eef2f7;
+  color: var(--ink-muted);
+}
+
+.task-badge--in_progress {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.task-badge--done {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.tasks-filters {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tasks-filter {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-muted);
+  padding: 0.45rem 0.8rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tasks-filter--active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--surface);
+}
