@@ -1926,49 +1926,6 @@
   line-height: 1.65;
 }
 
-.tasks-profile {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  min-inline-size: 15rem;
-  border: 1px solid var(--line);
-  border-radius: 0.75rem;
-  background: var(--canvas);
-  padding: 0.85rem;
-}
-
-.tasks-profile__avatar {
-  display: inline-grid;
-  place-items: center;
-  inline-size: 2.75rem;
-  block-size: 2.75rem;
-  border-radius: 0.65rem;
-  background: var(--primary);
-  color: var(--surface);
-  font-weight: 800;
-}
-
-.tasks-profile > div {
-  display: grid;
-  gap: 0.15rem;
-}
-
-.tasks-profile strong {
-  color: var(--ink);
-  font-size: 0.85rem;
-}
-
-.tasks-profile span,
-.tasks-profile small {
-  color: var(--ink-subtle);
-  font-size: 0.7rem;
-}
-
-.tasks-profile small {
-  color: var(--primary);
-  font-weight: 760;
-}
-
 .tasks-section {
   padding-block: clamp(4rem, 8vw, 7rem);
 }
@@ -2035,83 +1992,11 @@
   font-size: 0.85rem;
 }
 
-.tasks-list {
-  margin: 0;
-  border-block-start: 1px solid var(--line);
-  padding: 0;
-  list-style: none;
-}
-
-.tasks-list__item {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1rem;
-  min-block-size: 5rem;
-  border-block-end: 1px solid var(--line);
-  padding-block: 0.85rem;
-}
-
-.tasks-list__status {
-  inline-size: 0.75rem;
-  block-size: 0.75rem;
-  border-radius: 50%;
-}
-
-.tasks-list__status--pending {
-  background: #3b82f6;
-}
-
-.tasks-list__status--in_progress {
-  background: #f59e0b;
-}
-
-.tasks-list__status--done {
-  background: var(--success);
-}
-
-.tasks-list__copy {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.tasks-list__copy strong {
-  color: var(--ink);
-  font-size: 0.95rem;
-}
-
-.tasks-list__copy span {
-  color: var(--ink-subtle);
-  font-size: 0.72rem;
-}
-
-.tasks-list__label {
-  border-radius: 999px;
-  background: #eef2f7;
-  color: var(--ink-muted);
-  padding: 0.35rem 0.6rem;
-  font-size: 0.7rem;
-  font-weight: 740;
-}
-
 @media (max-width: 47.99rem) {
   .tasks-hero__inner,
   .tasks-section__header {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .tasks-profile {
-    inline-size: 100%;
-  }
-
-  .tasks-list__item {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .tasks-list__label {
-    grid-column: 2;
-    justify-self: start;
   }
 }
 
@@ -2646,4 +2531,18 @@
   .tasks-table__cell {
     padding: 0.7rem 0.75rem;
   }
+}
+
+.tasks-section__header .tasks-filters {
+  margin-block-start: 1.1rem;
+}
+
+.tasks-note {
+  margin: 1rem 0 0;
+  color: var(--ink-subtle);
+  font-size: 0.8rem;
+}
+
+.tasks-hero__inner .button--primary {
+  flex: 0 0 auto;
 }

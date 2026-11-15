@@ -28,6 +28,11 @@ const session: AuthSession = {
   },
 }
 
+const adminSession: AuthSession = {
+  ...session,
+  user: { ...session.user, id: 'admin-1', role: 'ADMIN' },
+}
+
 const healthReport = {
   status: 'ok',
   server: {
@@ -38,9 +43,51 @@ const healthReport = {
   database: { status: 'up', latencyMs: 0.42 },
 }
 
+const tasksPage = {
+  items: [
+    {
+      id: 'task-1',
+      title: 'Preparar la entrega',
+      status: 'in_progress',
+      creatorId: 'admin-1',
+      assigneeId: 'user-1',
+      createdAt: '2026-11-14T12:00:00.000Z',
+      updatedAt: '2026-11-14T12:00:00.000Z',
+    },
+  ],
+  pagination: {
+    page: 1,
+    limit: 100,
+    total: 1,
+    totalPages: 1,
+  },
+}
+
 function renderAt(path: string) {
   window.history.pushState({}, '', path)
   return render(<App />)
+}
+
+function mockApi(activeSession: AuthSession = session) {
+  return vi.spyOn(apiClient, 'get').mockImplementation((url) => {
+    if (url === '/auth/get-session') {
+      return Promise.resolve({ data: activeSession })
+    }
+
+    if (url === '/healthcheck') {
+      return Promise.resolve({ data: healthReport })
+    }
+
+    if (url === '/users') {
+      return Promise.resolve({ data: [] })
+    }
+
+    if (url === '/tasks') {
+      return Promise.resolve({ data: tasksPage })
+    }
+
+    return Promise.reject(new Error(`Unexpected request: ${String(url)}`))
+  })
 }
 
 describe('TasksPage', () => {
@@ -88,12 +135,16 @@ describe('TasksPage', () => {
         return Promise.resolve({ data: healthReport })
       }
 
+      if (url === '/users') {
+        return Promise.resolve({ data: [] })
+      }
+
       return Promise.resolve({
         data: {
           items: [],
           pagination: {
             page: 1,
-            limit: 20,
+            limit: 100,
             total: 0,
             totalPages: 0,
           },
@@ -130,40 +181,7 @@ describe('TasksPage', () => {
   })
 
   it('muestra las tareas cuando la sesión es válida', async () => {
-    const get = vi.spyOn(apiClient, 'get').mockImplementation((url) => {
-      if (url === '/auth/get-session') {
-        return Promise.resolve({ data: session })
-      }
-
-      if (url === '/healthcheck') {
-        return Promise.resolve({ data: healthReport })
-      }
-
-      if (url === '/tasks') {
-        return Promise.resolve({
-          data: {
-            items: [
-              {
-                id: 'task-1',
-                title: 'Preparar la entrega',
-                status: 'in_progress',
-                assigneeId: 'user-1',
-                createdAt: '2026-11-14T12:00:00.000Z',
-                updatedAt: '2026-11-14T12:00:00.000Z',
-              },
-            ],
-            pagination: {
-              page: 1,
-              limit: 20,
-              total: 1,
-              totalPages: 1,
-            },
-          },
-        })
-      }
-
-      return Promise.reject(new Error(`Unexpected request: ${String(url)}`))
-    })
+    const get = mockApi()
 
     renderAt('/tasks')
 
@@ -183,5 +201,71 @@ describe('TasksPage', () => {
     expect(
       screen.queryByRole('dialog', { name: 'Acceso a tu cuenta' }),
     ).not.toBeInTheDocument()
+  })
+
+  it('filtra las tareas por estado', async () => {
+    const get = mockApi()
+
+    renderAt('/tasks')
+
+    await screen.findByRole('heading', { level: 1, name: 'Tus tareas' })
+    fireEvent.click(screen.getByRole('button', { name: 'En curso' }))
+
+    await waitFor(() => {
+      expect(get).toHaveBeenCalledWith('/tasks', {
+        params: { page: 1, limit: 100, status: 'in_progress' },
+      })
+    })
+  })
+
+  it('oculta las acciones de administrador a un usuario', async () => {
+    mockApi()
+
+    renderAt('/tasks')
+
+    await screen.findByText('Preparar la entrega')
+
+    expect(
+      screen.queryByRole('button', { name: 'Crear Tarea' }),
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'Acciones de la tarea Preparar la entrega',
+      }),
+    )
+
+    expect(
+      await screen.findByRole('menuitem', { name: 'Ver tarea' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('menuitem', { name: 'Eliminar' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('ofrece las acciones de administrador a un administrador', async () => {
+    mockApi(adminSession)
+
+    renderAt('/tasks')
+
+    await screen.findByText('Preparar la entrega')
+
+    expect(
+      screen.getByRole('button', { name: 'Crear Tarea' }),
+    ).toBeInTheDocument()
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'Acciones de la tarea Preparar la entrega',
+      }),
+    )
+
+    expect(
+      await screen.findByRole('menuitem', { name: 'Eliminar' }),
+    ).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Crear Tarea' }))
+
+    expect(await screen.findByLabelText('Responsable')).toBeInTheDocument()
   })
 })
