@@ -24,6 +24,7 @@ export function TaskStatusFilter({
       {options.map((option) => {
         const isActive = value === option.value
         const count = counts?.[option.value]
+        const hasCount = typeof count === 'number'
 
         return (
           <button
@@ -31,10 +32,16 @@ export function TaskStatusFilter({
             type="button"
             className={isActive ? 'tasks-filter tasks-filter--active' : 'tasks-filter'}
             aria-pressed={isActive}
+            aria-label={hasCount ? `${option.label}, ${count}` : undefined}
             onClick={() => onChange(option.value)}
           >
             {option.label}
-            {typeof count === 'number' ? <span>{count}</span> : null}
+            {hasCount ? (
+              <span className="tasks-filter__count" aria-hidden="true">
+                {' '}
+                {count}
+              </span>
+            ) : null}
           </button>
         )
       })}

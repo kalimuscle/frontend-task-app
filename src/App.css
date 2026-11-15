@@ -2316,3 +2316,12 @@
   background: var(--primary);
   color: var(--surface);
 }
+
+.tasks-filter__count {
+  color: var(--ink-subtle);
+  font-size: 0.75rem;
+}
+
+.tasks-filter--active .tasks-filter__count {
+  color: var(--surface);
+}
