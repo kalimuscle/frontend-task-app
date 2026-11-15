@@ -192,7 +192,9 @@ describe('TasksPage', () => {
     expect(
       within(screen.getByRole('main')).getByText('Ana Pérez'),
     ).toBeInTheDocument()
-    expect(screen.getByText('En curso')).toBeInTheDocument()
+    expect(
+      within(screen.getByRole('table')).getByText('En curso'),
+    ).toBeInTheDocument()
     await waitFor(() => {
       expect(get).toHaveBeenCalledWith('/tasks', {
         params: { page: 1, limit: 100 },
@@ -200,6 +202,18 @@ describe('TasksPage', () => {
     })
     expect(
       screen.queryByRole('dialog', { name: 'Acceso a tu cuenta' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('oculta el enlace de volver arriba en el pie de página', async () => {
+    mockApi()
+
+    renderAt('/tasks')
+
+    await screen.findByRole('heading', { level: 1, name: 'Tus tareas' })
+
+    expect(
+      screen.queryByRole('link', { name: 'Volver arriba' }),
     ).not.toBeInTheDocument()
   })
 

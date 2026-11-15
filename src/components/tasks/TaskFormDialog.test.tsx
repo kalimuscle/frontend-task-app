@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { apiClient } from '../../lib/api/client'
 import type { AuthSession } from '../../lib/api/types'
@@ -94,14 +94,15 @@ describe('TaskFormDialog', () => {
     const post = vi.spyOn(apiClient, 'post').mockResolvedValue({ data: task })
     renderDialog(adminSession, 'create')
 
-    fireEvent.change(screen.getByLabelText('Título'), {
+    fireEvent.change(await screen.findByLabelText('Título'), {
       target: { value: 'Preparar la entrega' },
     })
     fireEvent.change(screen.getByLabelText('Estado'), {
       target: { value: 'in_progress' },
     })
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Responsable' }))
-    fireEvent.click(await screen.findByRole('option', { name: 'Ana Pérez' }))
+    fireEvent.change(await screen.findByLabelText('Responsable'), {
+      target: { value: 'admin-1' },
+    })
 
     fireEvent.click(screen.getByRole('button', { name: 'Guardar' }))
 
@@ -118,7 +119,7 @@ describe('TaskFormDialog', () => {
     const patch = vi.spyOn(apiClient, 'patch').mockResolvedValue({ data: task })
     renderDialog(userSession, 'edit')
 
-    fireEvent.change(screen.getByLabelText('Estado'), {
+    fireEvent.change(await screen.findByLabelText('Estado'), {
       target: { value: 'done' },
     })
     fireEvent.click(screen.getByRole('button', { name: 'Guardar' }))
@@ -134,9 +135,27 @@ describe('TaskFormDialog', () => {
     const post = vi.spyOn(apiClient, 'post').mockResolvedValue({ data: task })
     renderDialog(adminSession, 'create')
 
-    fireEvent.click(screen.getByRole('button', { name: 'Guardar' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Guardar' }))
 
     expect(await screen.findByText('Escribe un título.')).toBeInTheDocument()
     expect(post).not.toHaveBeenCalled()
+  })
+
+  it('ofrece los responsables con su identificador y su nombre', async () => {
+    renderDialog(adminSession, 'create')
+
+    const select = await screen.findByLabelText('Responsable')
+    await screen.findByRole('option', { name: 'Ana Pérez' })
+    const options = within(select).getAllByRole('option')
+
+    expect(
+      options.map((option) => [
+        (option as HTMLOptionElement).value,
+        option.textContent,
+      ]),
+    ).toEqual([
+      ['', 'Selecciona un responsable'],
+      ['admin-1', 'Ana Pérez'],
+    ])
   })
 })

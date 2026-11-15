@@ -1,7 +1,7 @@
 import { ArrowUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-export function HomeFooter() {
+export function HomeFooter({ showTopLink = true }: { showTopLink?: boolean }) {
   return (
     <footer className="site-footer">
       <div className="page-shell site-footer__inner">
@@ -12,10 +12,12 @@ export function HomeFooter() {
             Node.js.
           </p>
         </div>
-        <Link className="site-footer__top" to="/#inicio">
-          Volver arriba
-          <ArrowUp size={16} aria-hidden="true" />
-        </Link>
+        {showTopLink ? (
+          <Link className="site-footer__top" to="/#inicio">
+            Volver arriba
+            <ArrowUp size={16} aria-hidden="true" />
+          </Link>
+        ) : null}
       </div>
     </footer>
   )

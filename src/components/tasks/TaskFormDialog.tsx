@@ -4,11 +4,11 @@ import { X } from 'lucide-react'
 import { useSessionQuery } from '../../features/auth/use-auth'
 import { focusFirstInvalidField, getValidationMessage } from '../../features/auth/form-utils'
 import { useCreateTask, useUpdateTask } from '../../features/tasks/use-tasks'
+import { useUsers } from '../../features/tasks/use-users'
 import { getApiErrorMessage } from '../../lib/api/errors'
 import type { Task, TaskStatus } from '../../lib/api/tasks'
 import { taskFormSchema } from '../../lib/schemas/tasks'
 import { notifyToast } from '../../lib/toast-store'
-import { AssigneeCombobox } from './AssigneeCombobox'
 import { taskStatusLabels } from './TaskStatusBadge'
 
 const statusOptions: TaskStatus[] = ['pending', 'in_progress', 'done']
@@ -25,6 +25,7 @@ export function TaskFormDialog({
   onOpenChange: (open: boolean) => void
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const { data: session } = useSessionQuery()
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -58,7 +59,7 @@ export function TaskFormDialog({
       onClose={() => onOpenChange(false)}
     >
       <div className="task-dialog__surface">
-        {open ? (
+        {open && session ? (
           <TaskFormBody mode={mode} task={task} onOpenChange={onOpenChange} />
         ) : null}
       </div>
@@ -79,7 +80,10 @@ function TaskFormBody({
   const isAdmin = session?.user.role === 'ADMIN'
   const createTask = useCreateTask()
   const updateTask = useUpdateTask()
+  const usersQuery = useUsers({ enabled: isAdmin === true })
   const [serverError, setServerError] = useState<string | null>(null)
+
+  const users = Array.isArray(usersQuery.data) ? usersQuery.data : []
 
   const form = useForm({
     defaultValues: {
@@ -242,10 +246,26 @@ function TaskFormBody({
 
               return (
                 <div className="task-field">
-                  <AssigneeCombobox
+                  <label htmlFor="task-assignee">Responsable</label>
+                  <select
+                    id="task-assignee"
+                    name="assigneeId"
                     value={field.state.value}
-                    onChange={field.handleChange}
-                  />
+                    disabled={usersQuery.isPending || usersQuery.isError}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                  >
+                    <option value="">Selecciona un responsable</option>
+                    {users.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.name}
+                      </option>
+                    ))}
+                  </select>
+                  {usersQuery.isError ? (
+                    <p className="task-field__hint">
+                      El listado de usuarios no está disponible en el servidor.
+                    </p>
+                  ) : null}
                   {errorMessage ? (
                     <p className="task-field__error">{errorMessage}</p>
                   ) : null}

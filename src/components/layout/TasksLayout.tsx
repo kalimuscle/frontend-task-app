@@ -10,7 +10,7 @@ export function TasksLayout({ children }: { children: ReactNode }) {
       </a>
       <TasksHeader />
       {children}
-      <HomeFooter />
+      <HomeFooter showTopLink={false} />
     </>
   )
 }
