@@ -157,7 +157,7 @@ describe('TasksPage', () => {
     expect(screen.getByText('En curso')).toBeInTheDocument()
     await waitFor(() => {
       expect(get).toHaveBeenCalledWith('/tasks', {
-        params: { page: 1, limit: 20 },
+        params: { page: 1, limit: 100 },
       })
     })
     expect(
